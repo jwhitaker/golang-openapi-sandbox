@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: Cookbook API
+  description: A simple API for storing recipes
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local dev environment cookbook server
+    
+tags:
+  - name: users
+    description: Operations about a user
+  - name: recipes
+    description: All things recipes
+
+paths:
+  /recipes/:
+    get:
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+
+                
+  /users:
+    get:
+      summary: Return a list of all users
+      tags:
+        - users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
+    post:
+      summary: 'Create a user'
+      tags:
+        - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '405':
+          description: Invalid input   
+
+                  
+components:
+  schemas:
+    Ingredient:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: Flour
+
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 42
+        name:
+          type: string
+          example: Pancakes
+        blah:
+          type: string
+          example: asdfd
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        name:
+          type: string
+          example: Arthur Dent
+      # Both properties are required
+      required:  
+        - id
+        - name                
+          
