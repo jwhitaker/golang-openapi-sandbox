@@ -9,10 +9,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install openjdk-18-jdk \
     maven
 
-RUN mkdir -p ~/bin/openapitools \
-    && curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > ~/bin/openapitools/openapi-generator-cli \
-    && chmod u+x ~/bin/openapitools/openapi-generator-cli \
-    && export PATH=$PATH:~/bin/openapitools/
+USER vscode
 
-
-
+RUN mkdir -p ~/bin \
+    && curl https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.2.0/openapi-generator-cli-6.2.0.jar > ~/bin/openapi-generator-cli.jar
